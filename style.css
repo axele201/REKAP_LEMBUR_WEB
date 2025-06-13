@@ -1,0 +1,236 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f9fafb;
+    color: #333;
+}
+
+.header-title {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-control,
+textarea {
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+textarea::placeholder,
+input::placeholder {
+    color: #bbb;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+table {
+    font-size: 14px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table thead {
+    background: linear-gradient(45deg, #2980b9, #3498db);
+    color: white;
+}
+
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.border-success {
+    border: 2px solid #2ecc71 !important;
+}
+
+.border-danger {
+    border: 2px solid #e74c3c !important;
+}
+
+#database_list div {
+    padding: 5px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#database_list div:hover {
+    background-color: #e8f0fe;
+    cursor: pointer;
+}
+
+/* Loader Hamster */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* pastikan pakai viewport height */
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hamster Animation */
+.wheel-and-hamster {
+    --dur: 1s;
+    position: relative;
+    width: 192px;
+    height: 192px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel,
+.spoke {
+    position: absolute;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+.wheel {
+    border: 6.4px solid #333;
+}
+
+.spoke {
+    border-top: 6.4px solid #666;
+    animation: spoke var(--dur) linear infinite;
+}
+
+@keyframes spoke {
+    100% {
+        transform: rotate(-1turn);
+    }
+}
+
+.hamster {
+    position: relative;
+    width: 112px;
+    height: 56px;
+    transform: rotate(4deg) translateY(27.2px);
+    transform-origin: 50% 0;
+    animation: hamster var(--dur) ease-in-out infinite;
+}
+
+@keyframes hamster {
+    0%, 100% {
+        transform: rotate(4deg) translateY(27.2px);
+    }
+    50% {
+        transform: rotate(-4deg) translateY(27.2px);
+    }
+}
+
+.hamster__body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 112px;
+    height: 56px;
+    background: #f4c45c;
+    border-radius: 50% 50% 40% 40%;
+}
+
+.hamster__head {
+    position: absolute;
+    top: 0;
+    left: 72px;
+    width: 40px;
+    height: 40px;
+    background: #f4c45c;
+    border-radius: 50%;
+}
+
+.hamster__ear {
+    position: absolute;
+    top: -8px;
+    left: 4.8px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    border: 3.2px solid #333;
+}
+
+.hamster__eye {
+    position: absolute;
+    top: 12.8px;
+    left: 19.2px;
+    width: 8px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+}
+
+.hamster__nose {
+    position: absolute;
+    top: 27.2px;
+    left: 33.6px;
+    width: 6.4px;
+    height: 6.4px;
+    background: #e66161;
+    border-radius: 50%;
+}
+
+.hamster__limb {
+    position: absolute;
+    background: #f4c45c;
+    border-radius: 50%;
+}
+
+.hamster__limb--fr {
+    width: 11.2px;
+    height: 19.2px;
+    top: 33.6px;
+    left: 89.6px;
+}
+
+.hamster__limb--fl {
+    width: 11.2px;
+    height: 19.2px;
+    top: 33.6px;
+    left: 80px;
+}
+
+.hamster__limb--br {
+    width: 11.2px;
+    height: 19.2px;
+    top: 40px;
+    left: 24px;
+}
+
+.hamster__limb--bl {
+    width: 11.2px;
+    height: 19.2px;
+    top: 40px;
+    left: 32px;
+}
+
+.hamster__tail {
+    position: absolute;
+    top: 48px;
+    left: 6.4px;
+    width: 8px;
+    height: 8px;
+    background: #f4c45c;
+    border-radius: 50%;
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rekap Lembur</title>
+
+    <!-- Font, Bootstrap, AOS, SweetAlert, SheetJS, AutoComplete -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <h1 class="mb-5 text-center header-title" data-aos="fade-down">
+            <i class="fa-solid fa-clipboard-list me-2"></i>Rekap Lembur
+        </h1>
+
+        <div class="row g-4">
+            <div class="col-md-6" data-aos="fade-right">
+                <div class="card p-4">
+                    <label class="mb-2 fw-semibold"><i class="fa-solid fa-database me-2"></i>Database Nama:</label>
+
+                    <div class="mb-3">
+                        <input type="text" id="search_database" class="form-control"
+                            placeholder="Cari nama di database..." oninput="filterDatabaseList()">
+                    </div>
+
+                    <div id="database_list" class="p-2 border rounded bg-light"
+                        style="max-height: 200px; overflow-y: auto;"></div>
+
+                    <textarea class="form-control mt-3" id="database_nama" rows="8"
+                        placeholder="Masukkan database nama..." oninput="renderDatabaseList()"></textarea>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="card p-4">
+                    <label class="mb-2 fw-semibold"><i class="fa-solid fa-file-lines me-2"></i>Data Input:</label>
+                    <small class="text-muted">Format: Nama, Divisi, Shift, Jam Masuk, Jam Pulang, Jam Kerja,
+                        Lembur</small>
+                    <textarea class="form-control mt-2" id="data_input" rows="8"
+                        placeholder="Masukkan data input..."></textarea>
+                    <button class="btn btn-primary w-100 mt-3" onclick="parseData()">
+                        <i class="fa-solid fa-magic me-2"></i>Rapihkan Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="parsedTableContainer" class="mt-5" style="display:none;" data-aos="zoom-in">
+            <div class="card p-4">
+                <h4 class="mb-3 fw-semibold">
+                    <i class="fa-solid fa-table-cells-large me-2"></i>Perapihan Data (Editable + Search Nama)
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="parsedTable">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Divisi</th>
+                                <th>Shift</th>
+                                <th>Masuk</th>
+                                <th>Pulang</th>
+                                <th>?</th>
+                                <th>Lembur</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button class="btn btn-success w-100 mt-3" onclick="prosesValidasi()">
+                    <i class="fa-solid fa-circle-check me-2"></i>Proses Validasi
+                </button>
+            </div>
+        </div>
+
+        <div id="hasilContainer" class="mt-5" style="display:none;" data-aos="fade-up">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card p-4 border-success">
+                        <h5 class="mb-3 fw-semibold text-success">
+                            <i class="fa-solid fa-check-circle me-2"></i>Valid
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Masuk</th>
+                                        <th>Pulang</th>
+                                        <th>Istirahat</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="validTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4 border-danger">
+                        <h5 class="mb-3 fw-semibold text-danger">
+                            <i class="fa-solid fa-times-circle me-2"></i>Invalid
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Masuk</th>
+                                        <th>Pulang</th>
+                                        <th>Istirahat</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invalidTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-warning w-100 mt-4" onclick="exportExcel()">
+                <i class="fa-solid fa-file-excel me-2"></i>Export Excel
+            </button>
+            <button class="btn btn-info w-100 mt-3" onclick="exportGoogleSheets()">
+                <i class="fa-solid fa-cloud-arrow-up me-2"></i>Export Google Sheets
+            </button>
+        </div>
+    </div>
+    <div id="loader" style="display: none;">
+            <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+                <div class="wheel"></div>
+                <div class="hamster">
+                    <div class="hamster__body">
+                        <div class="hamster__head">
+                            <div class="hamster__ear"></div>
+                            <div class="hamster__eye"></div>
+                            <div class="hamster__nose"></div>
+                        </div>
+                        <div class="hamster__limb hamster__limb--fr"></div>
+                        <div class="hamster__limb hamster__limb--fl"></div>
+                        <div class="hamster__limb hamster__limb--br"></div>
+                        <div class="hamster__limb hamster__limb--bl"></div>
+                        <div class="hamster__tail"></div>
+                    </div>
+                </div>
+                <div class="spoke"></div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>
